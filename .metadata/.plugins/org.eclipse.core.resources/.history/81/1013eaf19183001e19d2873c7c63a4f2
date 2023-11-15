@@ -1,0 +1,5 @@
+package blog.com.services;
+
+public class AccountService {
+
+}
