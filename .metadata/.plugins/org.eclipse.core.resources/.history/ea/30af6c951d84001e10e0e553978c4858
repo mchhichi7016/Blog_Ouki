@@ -1,0 +1,92 @@
+.header {
+            background-color: #1D4662;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+.login-container {
+            background-color: #d6eee1;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            margin: 40px auto;
+            max-width: 400px;
+        }
+.login-container h2 {
+            text-align: center;
+        }
+.form-group {
+            margin-bottom: 15px;
+        }
+.form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+.form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+.form-group-inline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+.form-group-inline label {
+            flex: 1;
+            margin-right: 5px;
+        }
+.form-group-inline input {
+            flex: 2;
+        }
+.btn-login {
+            width: 50%;
+            padding: 10px;
+            background-color: #1EB26D;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 15px;
+            margin-left: 100px;
+        }
+.btn-login:hover {
+            background-color: #0056B3;
+        }
+.forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+.forgot-password a {
+            color: #0074D9;
+            text-decoration: none;
+        }
+.forgot-password a:hover {
+            text-decoration: underline;
+        }
+.signup-button {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            border-radius: 15px;
+        }
+.signup-button a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #15D776;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+.signup-button a:hover {
+            background-color: #0056B3;
+        }
+.footer {
+            background-color: #989898;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 200px;
+        }

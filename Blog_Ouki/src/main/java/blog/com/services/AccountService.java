@@ -23,8 +23,8 @@ public class AccountService {
 		}
 	}
 	
-	//login处理
-	public AccountEntity checkLogin(String email, String password) {//2つのパラメータを渡す//传入两个参数
+	//loginCheck处理
+	public AccountEntity loginCheck(String email, String password) {//2つのパラメータを渡す//传入两个参数
 		////アカウントが存在するかどうか、データベースに問い合わせる。
 		AccountEntity accountEntity = accountDao.findByAccountEmailAndPassword(email, password);
 		if(accountEntity == null) {
@@ -34,6 +34,16 @@ public class AccountService {
 		}
 	}
 	
+	//login处理
+		public boolean checkLogin(String email, String password) {//2つのパラメータを渡す//传入两个参数
+			////アカウントが存在するかどうか、データベースに問い合わせる。
+			AccountEntity accountEntity = accountDao.findByAccountEmailAndPassword(email, password);
+			if(accountEntity == null) {
+				return false;
+			}else {
+				return true;//ログイン成功//登录成功
+			}
+		}
 	
 
 }

@@ -1,0 +1,5 @@
+inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(75% 75% at 25% 15%,#fff 0,hsla(0,0%,100%,0.3) 100%);
+    mask: linear-gradient(#000,#000) content-box,linear-gradient(#000,#000);
