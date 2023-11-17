@@ -49,42 +49,42 @@
 		<div class="main-inner">
 			<section class="register-section">
 				<h2>Blog登録画面</h2>
-				<form th:action="@{/product/edit/process}" method="post" enctype="multipart/form-data">
+				<form th:action="@{/blog/edit/process}" method="post" enctype="multipart/form-data">
 					<div class="register-section-details">
 						<div class="register-section-details_flex">
-							<div>Blog名</div>
-							<input type="text" name="productName" th:value="${productList.productName}">
+							<div>Blogタイトル</div>
+							<input type="text" name="blogTitle" th:value="${blogList.blogTitle}">
 						</div>
 						<div class="register-section-details_flex">
 							<div>カテゴリー</div>
-							<select name="productCategory">
+							<select name="blogType">
 								<option value=""></option>
-								<option value="シャープペン" th:selected="${productList.productCategory == 'シャープペン'}">シャープペン
+								<option value="日記" th:selected="${blogList.blogType == '日記'}">日記
 								</option>
-								<option value="消しゴム" th:selected="${productList.productCategory == '消しゴム'}">消しゴム
+								<option value="技術共有" th:selected="${blogList.blogType == '技術共有'}">技術共有
 								</option>
-								<option value="鉛筆" th:selected="${productList.productCategory == '鉛筆'}">鉛筆</option>
+								<option value="other" th:selected="${blogList.blogType == 'other'}">other</option>
 							</select>
 						</div>
 						<div class="register-section-details_flex">
 							<div>Blog画像</div>
-							<input type="file" name="productImage">
+							<input type="file" name="blogImage">
 						</div>
 						<div class="register-section-details_flex">
-							<div>Blogの説明</div>
-							<textarea name="productDescription" placeholder="Blogの記事" th:text="${productList.productDescription}"></textarea>
+							<div>Blogの記事</div>
+							<textarea name="blogArticle" placeholder="Blogの記事" th:text="${blogList.blogArticle}"></textarea>
 						</div>
 
 					</div>
 					<div class="register-section-details_flex">
-						<input type="hidden" name="productId" th:value="${productList.productId}">
+						<input type="hidden" name="blogtId" th:value="${blogList.blogtId}">
 						<button class="register">更新</button>
 						<button class="back-btn" onclick="history.back();" type="button">戻る</button>
 					</div>
 				</form>
-				<form th:action="@{/product/delete}" method="post">
+				<form th:action="@{/blog/delete}" method="post">
 					<div class="register-section-details_flex">
-						<input type="hidden" name="productId" th:value="${productList.productId}">
+						<input type="hidden" name="blogtId" th:value="${blogList.blogtId}">
 						<button class="register">削除</button>
 					</div>
 				</form>

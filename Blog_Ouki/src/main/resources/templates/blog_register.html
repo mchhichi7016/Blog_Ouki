@@ -48,20 +48,20 @@
     <main>
         <div class="main-inner">
             <section class="register-section">
-                <h2>BLOG登録画面</h2>
+                <h2>BLOG登録</h2>
                 <form th:action="@{/blog/register/process}" method="post" enctype="multipart/form-data">
                     <div class="register-section-details">
                         <div class="register-section-details_flex">
-                            <div>BLOG名</div>
+                            <div>Blogタイトル</div>
                             <input type="text" name="blogTitle" value="">
                         </div>
                         <div class="register-section-details_flex">
                             <div>カテゴリー</div>
                             <select name="blogType">
                                 <option value=""></option>
-                                <option value="シャープペン">シャープペン</option>
-                                <option value="消しゴム">消しゴム</option>
-                                <option value="鉛筆">鉛筆</option>
+                                <option value="日記">日記</option>
+                                <option value="技術共有">技術共有</option>
+                                <option value="other">other</option>
                             </select>
                         </div>
                         <div class="register-section-details_flex">
@@ -69,7 +69,7 @@
                             <input type="file" name="blogImage">
                         </div>
                         <div class="register-section-details_flex">
-                            <div>BLOGの説明</div>
+                            <div>BLOGの記事</div>
                             <textarea name="blogArticle" placeholder="BLOGの記事"></textarea>
                         </div>
 

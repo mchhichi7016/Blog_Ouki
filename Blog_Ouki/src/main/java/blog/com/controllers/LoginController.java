@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import blog.com.models.dao.AccountDao;
 import blog.com.models.entity.AccountEntity;
 import blog.com.services.AccountService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller//表明这是控制器 且Controller必须位于BlogOukiApplication的同层或者下一层
 public class LoginController {
@@ -20,6 +21,10 @@ public class LoginController {
 	
 	@Autowired
 	private AccountDao accountDao;
+	
+	//Session宣言
+	@Autowired
+	private HttpSession session;
 	
 	//展示login页面
 	@GetMapping(value = "/login")
@@ -34,17 +39,19 @@ public class LoginController {
 	//login.htmlを表示します
 	@PostMapping("/login/process")
 	public String login(@RequestParam String email,@RequestParam String password, Model model) {
-		if(accountService.checkLogin(email, password)) {
+		
+		AccountEntity account = accountService.loginCheck(email, password);
+		if(account == null) {
 			
-			//查询数据库中的所有AdminEntity对象，然后赋值给admins变量
-			List<AccountEntity>accounts = accountDao.findAll();
-			model.addAttribute("email", email);
-			//accounts未来可能能用到
-			model.addAttribute("accountList", accounts);
+			//查询数据库中的所有AdminEntity对象，然后赋值给admin变量
+			//List<AccountEntity>account = accountDao.findAll();
+			//model.addAttribute("email", email);
+			//model.addAttribute("accountList", account);//account未来可能能用到
 			
-			return "blog_list.html";
-		}else {
 			return "login.html";
+		}else {
+			session.setAttribute("account", account);
+			return "blog_list.html";
 		}
 	}
 	
