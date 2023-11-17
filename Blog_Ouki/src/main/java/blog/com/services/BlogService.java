@@ -30,9 +30,10 @@ public class BlogService {
 	public boolean createBlog(String blogTitle,
 							  String blogType,
 							  String blogImage,
-							  String blogArticle) {
+							  String blogArticle,
+							  Long accountId) {
 		if(blogDao.findByBlogTitle(blogTitle) == null) {
-			blogDao.save(new Blog(blogTitle, blogType, blogImage, blogArticle));
+			blogDao.save(new Blog(blogTitle,blogType,blogImage,blogArticle,accountId));
 			return true;
 		}else {
 			return false;
@@ -58,12 +59,13 @@ public class BlogService {
 							String blogTitle,
 							String blogType,
 							String blogImage,
-							String blogArticle) {
+							String blogArticle,
+							Long accountId) {
 		if(blogId == null) {
 			return false;
 		}else {
 			//更新処理
-			blogDao.save(new Blog(blogTitle, blogType, blogImage, blogArticle));
+			blogDao.save(new Blog(blogId,blogTitle, blogType, blogImage, blogArticle, accountId));
 			return true;
 		}
 	}

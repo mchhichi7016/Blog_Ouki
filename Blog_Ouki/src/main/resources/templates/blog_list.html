@@ -60,7 +60,7 @@
 					<a th:href="@{/blog/edit/{blogId}(blogId=${blog.blogId})}">
 						<img th:src="@{/blog-img/{imagePath}(imagePath=${blog.blogImage})}" alt="">
 						<p th:text="${blog.blogTitle}"></p><br>
-						<!-- <p th:text="${blog.blogType}"></p> -->
+						<p th:text="${blog.bolgType}"></p>
 					</a>
 				</li>
 			</ul>
@@ -69,7 +69,7 @@
 	</main>
 	<footer>
 		<div>
-			<small>Copyright&copy; 2023Mochi All rights reserved</small>
+			<small>Copyright&copy; 2023 Mochi All rights reserved</small>
 		</div>
 	</footer>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"

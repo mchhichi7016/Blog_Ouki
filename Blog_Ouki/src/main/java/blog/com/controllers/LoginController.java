@@ -51,7 +51,7 @@ public class LoginController {
 			return "login.html";
 		}else {
 			session.setAttribute("account", account);
-			return "blog_list.html";
+			return "redirect:/blog/list";
 		}
 	}
 	

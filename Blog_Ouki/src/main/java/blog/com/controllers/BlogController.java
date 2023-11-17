@@ -78,7 +78,7 @@ public class BlogController {
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
-			if(blogService.createBlog(blogTitle, blogType, fileName, blogArticle)) {
+			if(blogService.createBlog(blogTitle, blogType, blogType, blogArticle, account.getAccountId())) {
 				return "redirect:/blog/list";
 			}else {
 				return "redirect:/blog/register";
@@ -87,8 +87,8 @@ public class BlogController {
 	}
 	
 	//取得blog的编辑页面
-	//多次编辑页面 //非创建！ 必须已有blogId
-	@GetMapping("blog/edit/{blogId}")
+	//多次编辑页面 //必须已有blogId
+	@GetMapping("/blog/edit/{blogId}")
 	//@PathVariable注释 表示blogId从前端页面回传
 	public String getBlogEditPage(@PathVariable Long blogId, Model model) {
 		AccountEntity account = (AccountEntity)session.getAttribute("account");
@@ -100,11 +100,8 @@ public class BlogController {
 				return "redirect:/blog/List";
 			}else {
 				model.addAttribute("blogList", blogList);
-				//这里可能有问题
-				//待定
-				return "blog_edit.html";
 			}
-			//return "blog_edit.html";
+			return "blog_edit.html";
 		}
 	}
 	
@@ -129,10 +126,10 @@ public class BlogController {
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
-			if(blogService.createBlog(blogTitle, blogType, fileName, blogArticle)) {
+			if(blogService.createBlog(blogTitle, blogType, blogType, blogArticle, blogId)) {
 				return "redirect:/blog/list";
 			}else {
-				return "redirect:/blog/edit";
+				return "redirect:/blog/edit" + blogId;
 			}
 		}
 	}

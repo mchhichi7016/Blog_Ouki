@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Table(name="account")//表名account //@Table注解，表示它可以被映射到数据库中的一个表
 public class AccountEntity {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)//@GeneratedValue注解，表示它的值是由数据库自动生成的，不需要手动指定。
 	private Long accountId;//PK 属性名称
