@@ -24,138 +24,127 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class BlogController {
-	
+
 	@Autowired
 	private BlogService blogService;
-	
+
 	@Autowired
 	private HttpSession session;
-	
-	//Blog一览
-	//展示当前用户的所有blog
+
+	// Blog一览
+	// 展示当前用户的所有blog
 	@GetMapping("/blog/list")
 	public String getBlogList(Model model) {
-		AccountEntity account = (AccountEntity)session.getAttribute("account");
-		if(account == null) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
 			return "redirect:/login";
-		}else {
-			List<Blog>blogList = blogService.selectAll(account.getAccountId());
+		} else {
+			List<Blog> blogList = blogService.selectAll(account.getAccountId());
 			model.addAttribute("blogList", blogList);
 			model.addAttribute("accountName", account.getAccountName());
 			return "blog_list.html";
 		}
 	}
-	
-	//blog Registerのpageを取得
-	//获取创建blog的页面
+
+	// blog Registerのpageを取得
+	// 获取创建blog的页面
 	@GetMapping("/blog/register")
 	public String getBlogRegisterPage(Model model) {
-		AccountEntity account = (AccountEntity)session.getAttribute("account");
-		if(account == null) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
 			return "redirect:/login";
-		}else {
+		} else {
 			model.addAttribute("accountName", account.getAccountName());
 			return "blog_register.html";
 		}
 	}
-	
-	//商品登记（とうき）の方法
-	//创建blog！！！
+
+	// 商品登记（とうき）の方法
+	// 创建blog！！！
 	@PostMapping("/blog/register/process")
-	public String blogRegister(@RequestParam String blogTitle,
-							   @RequestParam String blogType,
-							   @RequestParam MultipartFile blogImage,
-							   @RequestParam String blogArticle) {
+	public String blogRegister(@RequestParam String blogTitle, @RequestParam String blogType,
+			@RequestParam MultipartFile blogImage, @RequestParam String blogArticle) {
 		AccountEntity account = (AccountEntity) session.getAttribute("account");
-		if(account == null) {
+		if (account == null) {
 			return "redirect:/login";
-		}else {
-			//blogImageのファイル名を取得する。
-			//获取blogImage的文件名
-			String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-").format(new Date()) + blogImage.getOriginalFilename();
+		} else {
+			// blogImageのファイル名を取得する。
+			// 获取blogImage的文件名
+			String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-").format(new Date())
+					+ blogImage.getOriginalFilename();
 			try {
-				Files.copy(blogImage.getInputStream(),Path.of("src/main/resources/static/blog-img/" + fileName));
-			}catch(IOException e) {
+				Files.copy(blogImage.getInputStream(), Path.of("src/main/resources/static/blog-img/" + fileName));
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			if(blogService.createBlog(blogTitle, blogType, blogType, blogArticle, account.getAccountId())) {
+			if (blogService.createBlog(blogTitle, blogType, fileName, blogArticle, account.getAccountId())) {
 				return "redirect:/blog/list";
-			}else {
+			} else {
 				return "redirect:/blog/register";
 			}
 		}
 	}
-	
+
 	//取得blog的编辑页面
-	//多次编辑页面 //必须已有blogId
+	//必须已有blogId
 	@GetMapping("/blog/edit/{blogId}")
-	//@PathVariable注释 表示blogId从前端页面回传
+	// @PathVariable注释 表示blogId从前端页面回传
 	public String getBlogEditPage(@PathVariable Long blogId, Model model) {
-		AccountEntity account = (AccountEntity)session.getAttribute("account");
-		if(account == null) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
 			return "redirect:/login";
-		}else {
+		} else {
 			Blog blogList = blogService.getBlogPost(blogId);
-			if(blogList == null) {
+			if (blogList == null) {
 				return "redirect:/blog/List";
-			}else {
+			} else {
 				model.addAttribute("blogList", blogList);
 			}
 			return "blog_edit.html";
 		}
 	}
-	
-	
-	//blog更新する方法　　先ずは　blogIdが必ず存在
+
+	// blog更新する方法 先ずは blogIdが必ず存在
 	//
 	@PostMapping("/blog/edit/process")
-	public String blogEdit(@RequestParam Long blogId,
-						   @RequestParam String blogTitle,
-						   @RequestParam String blogType,
-						   @RequestParam MultipartFile blogImage,
-						   @RequestParam String blogArticle) {
-		AccountEntity account = (AccountEntity)session.getAttribute("account");
-		if(account == null) {
+	public String blogEdit(@RequestParam Long blogId, @RequestParam String blogTitle, @RequestParam String blogType,
+			@RequestParam MultipartFile blogImage, @RequestParam String blogArticle) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
 			return "redirect:/login";
-		}else {
-			//blogImageのファイル名を取得する。
-			//获取blogImage的文件名
-			String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-").format(new Date()) + blogImage.getOriginalFilename();
+		} else {
+			// blogImageのファイル名を取得する。
+			// 获取blogImage的文件名
+			String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-").format(new Date())
+					+ blogImage.getOriginalFilename();
 			try {
-				Files.copy(blogImage.getInputStream(),Path.of("src/main/resources/static/blog-img/" + fileName));
-			}catch(IOException e) {
+				Files.copy(blogImage.getInputStream(), Path.of("src/main/resources/static/blog-img/" + fileName));
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			if(blogService.createBlog(blogTitle, blogType, blogType, blogArticle, blogId)) {
+			
+			if (blogService.editBlog(blogId, blogTitle, blogType,fileName, blogArticle, account.getAccountId())) {
 				return "redirect:/blog/list";
-			}else {
-				return "redirect:/blog/edit" + blogId;
+			} else {
+				return "redirect:/blog/edit/" + blogId;
 			}
 		}
 	}
-	
-	
-	//blog 削除する
+
+	// blog 削除する
 	//
 	@PostMapping("/blog/delete")
-	public String delete(@RequestParam Long blogId) {//从页面获取参数blogId
-		AccountEntity account = (AccountEntity)session.getAttribute("account");
-		if(account == null) {
+	public String delete(@RequestParam Long blogId) {// 从页面获取参数blogId
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
 			return "redirect:login";
-		}else {
-			if(blogService.deleteBlog(blogId)) {
-				return "redirect:/blog/list";//删除成功返回列表blog/list
-			}else {
-				return "redirect:/blog/edit/" + blogId;//删除失败 返回当前编辑的blog页面
+		} else {
+			if (blogService.deleteBlog(blogId)) {
+				return "redirect:/blog/list";// 删除成功返回列表blog/list
+			} else {
+				return "redirect:/blog/edit/" + blogId;// 删除失败 返回当前编辑的blog页面
 			}
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
 
 }

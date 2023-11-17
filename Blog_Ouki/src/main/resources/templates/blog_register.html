@@ -52,16 +52,16 @@
                 <form th:action="@{/blog/register/process}" method="post" enctype="multipart/form-data">
                     <div class="register-section-details">
                         <div class="register-section-details_flex">
-                            <div>Blogタイトル</div>
+                            <div>タイトル</div>
                             <input type="text" name="blogTitle" value="">
                         </div>
                         <div class="register-section-details_flex">
                             <div>カテゴリー</div>
                             <select name="blogType">
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
+                                <option value="日記">日記</option>
+                                <option value="技術文">技術文</option>
+                                <option value="other">other</option>
                             </select>
                         </div>
                         <div class="register-section-details_flex">
