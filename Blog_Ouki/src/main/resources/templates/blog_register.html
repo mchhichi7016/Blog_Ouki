@@ -38,8 +38,10 @@
 					<a href=""><img src="/images/blog.png" alt=""></a>
 				</div>
 				<ul class="pc-list">
-					<li class="pc-list__item"></li>
-					<li class="pc-list__item"><a href="">BLOG一覧</a></li>
+					<li class="pc-list__item" th:text="${accountName}"></li>
+					<li class="pc-list__item"><a th:href="@{/blog/list}">Blog一覧</a></li>
+					<li class="pc-list__item"><a href="">自己紹介</a></li>
+					<li class="pc-list__item"><a th:href="@{/blog/search}">Blog検索</a></li>
 					<li class="pc-list__item"><a th:href="@{/logout}">ログアウト</a></li>
 				</ul>
 			</div>

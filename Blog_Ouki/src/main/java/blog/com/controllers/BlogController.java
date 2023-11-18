@@ -88,7 +88,7 @@ public class BlogController {
 	//取得blog的编辑页面
 	//必须已有blogId
 	@GetMapping("/blog/edit/{blogId}")
-	// @PathVariable注释 表示blogId从前端页面回传
+	//@PathVariable注释 表示blogId从前端页面回传
 	public String getBlogEditPage(@PathVariable Long blogId, Model model) {
 		AccountEntity account = (AccountEntity) session.getAttribute("account");
 		if (account == null) {
@@ -144,6 +144,40 @@ public class BlogController {
 			} else {
 				return "redirect:/blog/edit/" + blogId;// 删除失败 返回当前编辑的blog页面
 			}
+		}
+	}
+	
+	
+	// blog searchのpageを取得
+	// 获取blog查询的页面
+	@GetMapping("/blog/search")
+	public String getBlogRearchPage(Model model) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/login";
+		} else {
+			model.addAttribute("accountName", account.getAccountName());
+			return "search_list.html";
+		}
+	}
+	
+	
+	
+	
+	// 展示查询到的所有blog
+	//@PathVariable注释 表示blogTitle从前端页面回传
+	@GetMapping("/blog/search/{blogTitle}")
+	public String getSearchBlogList(@RequestParam String blogTitle, Model model) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/login";
+			
+		}else {
+			List<Blog> blogList = blogService.searchAll(blogTitle); 
+			model.addAttribute("blogList", blogList);
+			model.addAttribute("accountName", account.getAccountName());
+			
+			return "search_list"; 
 		}
 	}
 

@@ -1,5 +1,6 @@
 package blog.com.services;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +96,21 @@ public class BlogService {
 			return count;
 		}
 	}*/
+	
+	
+	//查询blog方法
+	//根据blogTitle查找所有blog并返回
+	public List<Blog> searchAll(String blogTitle){
+		if(blogTitle == null) {
+			
+			//空のList<Blog> オブジェクトを返します。
+			return Collections.emptyList(); // 返回一个空的List<Blog>对象
+		}else {
+			//使用findAllByBlogTitle方法
+			return blogDao.findByBlogTitleContaining(blogTitle);
+		}
+	}
+	
 	
 	
 	
