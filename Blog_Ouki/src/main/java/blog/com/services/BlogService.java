@@ -104,7 +104,8 @@ public class BlogService {
 		if(blogTitle == null) {
 			
 			//空のList<Blog> オブジェクトを返します。
-			return Collections.emptyList(); // 返回一个空的List<Blog>对象
+			//返回一个空的List<Blog>对象
+			return Collections.emptyList();
 		}else {
 			//使用findAllByBlogTitle方法
 			return blogDao.findByBlogTitleContaining(blogTitle);
