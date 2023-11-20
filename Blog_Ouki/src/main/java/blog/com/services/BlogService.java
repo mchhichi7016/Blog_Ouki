@@ -83,19 +83,7 @@ public class BlogService {
 			return true;
 		}
 	}
-	
-	
-	//
-	//统计blog浏览量
-	/*int count = 0;
-	public int getBlogViewCount(Long blogId) {
-		if() {
-			count++;
-			return count;
-		}else {
-			return count;
-		}
-	}*/
+
 	
 	
 	//查询blog方法
@@ -113,7 +101,23 @@ public class BlogService {
 	}
 	
 	
-	
+	//ビュー数
+	//统计blog浏览量
+	public Blog getBlogViewCount(Long blogId) {
+	    if (blogId == null) {
+	        return null;
+	    } else {
+	        Blog blog = blogDao.findByBlogId(blogId);
+	        if (blog != null) {
+	            //累加浏览量
+	        	//累積回数
+	            blog.setBlogView(blog.getBlogView() + 1);
+	            blogDao.save(blog);  // 保存更新后的数据
+	        }
+	        return blog;
+	    }
+	}
+
 	
 	
 

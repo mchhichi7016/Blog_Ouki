@@ -68,8 +68,10 @@
 			<ul class="products">
 				<li th:each="blog:${blogList}">
 					<a th:href="@{/blog/edit/{blogId}(blogId=${blog.blogId})}">
+					<!--<a th:href="@{/blog/view/{blogId}(blogId=${blog.blogId})}">ブログを見る</a>-->
 						<img th:src="@{/blog-img/{imagePath}(imagePath=${blog.blogImage})}" alt="">
 						<p th:text="${blog.blogTitle}"></p><br>
+						<p th:text="'ビュー数：' + ${blog.blogView}"></p><br>
 						<p th:text="${blog.bolgType}"></p>
 					</a>
 				</li>

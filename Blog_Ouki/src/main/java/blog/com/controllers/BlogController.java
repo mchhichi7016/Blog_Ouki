@@ -59,7 +59,7 @@ public class BlogController {
 		}
 	}
 
-	// 商品登记（とうき）の方法
+	// blog登记（とうき）の方法
 	// 创建blog！！！
 	@PostMapping("/blog/register/process")
 	public String blogRegister(@RequestParam String blogTitle, @RequestParam String blogType,
@@ -104,8 +104,7 @@ public class BlogController {
 		}
 	}
 
-	// blog更新する方法 先ずは blogIdが必ず存在
-	//
+	//blog更新する方法 先ずは blogIdが必ず存在
 	@PostMapping("/blog/edit/process")
 	public String blogEdit(@RequestParam Long blogId, @RequestParam String blogTitle, @RequestParam String blogType,
 			@RequestParam MultipartFile blogImage, @RequestParam String blogArticle) {
@@ -131,8 +130,7 @@ public class BlogController {
 		}
 	}
 
-	// blog 削除する
-	//
+	//blog 削除する
 	@PostMapping("/blog/delete")
 	public String delete(@RequestParam Long blogId) {// 从页面获取参数blogId
 		AccountEntity account = (AccountEntity) session.getAttribute("account");
@@ -148,8 +146,8 @@ public class BlogController {
 	}
 	
 	
-	// blog searchのpageを取得
-	// 获取blog查询的页面
+	//blog searchのpageを取得
+	//获取blog查询的页面
 	@GetMapping("/blog/search")
 	public String getBlogRearchPage(Model model) {
 		AccountEntity account = (AccountEntity) session.getAttribute("account");
@@ -163,9 +161,7 @@ public class BlogController {
 	
 	
 	
-	
-	// 展示查询到的所有blog
-	//@PathVariable注释 表示blogTitle从前端页面回传
+	//展示查询到的所有blog
 	@GetMapping("/blog/search/{blogTitle}")
 	public String getSearchBlogList(@RequestParam String blogTitle, Model model) {
 		AccountEntity account = (AccountEntity) session.getAttribute("account");

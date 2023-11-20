@@ -1,5 +1,6 @@
 package blog.com.models.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +13,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="blog")//表名blog //@Table注解，表示它可以被映射到数据库中的一个表
+//表名blog //@Table注解，表示它可以被映射到数据库中的一个表
+@Table(name="blog")
 public class Blog {
 	
 	@Id
@@ -25,6 +27,9 @@ public class Blog {
 
 	private String blogImage;
 
+	@Column(name = "blog_view")
+	private int blogView;//blog浏览量
+	
 	private String blogArticle;
 	
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,7 +39,29 @@ public class Blog {
 		
 	}
 
+	public Blog(String blogTitle, String bolgType, String blogImage, int blogView, String blogArticle, Long accountId)
+	{
+		this.blogTitle = blogTitle;
+		this.bolgType = bolgType;
+		this.blogImage = blogImage;
+		this.blogView = blogView;
+		this.blogArticle = blogArticle;
+		this.accountId = accountId;
+	}
+
+	public Blog(Long blogId, String blogTitle, String bolgType, String blogImage, int blogView, String blogArticle,
+			Long accountId) {
+		this.blogId = blogId;
+		this.blogTitle = blogTitle;
+		this.bolgType = bolgType;
+		this.blogImage = blogImage;
+		this.blogView = blogView;
+		this.blogArticle = blogArticle;
+		this.accountId = accountId;
+	}
+
 	public Blog(String blogTitle, String bolgType, String blogImage, String blogArticle, Long accountId) {
+
 		this.blogTitle = blogTitle;
 		this.bolgType = bolgType;
 		this.blogImage = blogImage;
@@ -43,6 +70,7 @@ public class Blog {
 	}
 
 	public Blog(Long blogId, String blogTitle, String bolgType, String blogImage, String blogArticle, Long accountId) {
+
 		this.blogId = blogId;
 		this.blogTitle = blogTitle;
 		this.bolgType = bolgType;
@@ -50,5 +78,9 @@ public class Blog {
 		this.blogArticle = blogArticle;
 		this.accountId = accountId;
 	}
+	
+	
+
+	
 	
 }
