@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/styleLogin.css}">
+    
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome</h1>
+    </div>
+    <div class="login-container">
+        <form th:action="@{/login/process}" method="post">
+            <div class="form-group-inline">
+                <label for="email">Email</label>
+                <input type="text" id="Email" name="email" required>
+            </div>   
+
+            <div class="form-group-inline">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="btn-login">ログイン</button>
+            <div class="new-register">
+                <p>新規登録<a th:href="@{/register}">こちら</a></p>
+            </div>
+        </form>
+    </div>
+    
+    <!--
+		<div class="signup-button">
+        <a href="#">ログインはこちら</a>
+    </div>
+	-->
+    
+    <div class="footer">
+		<style>
+				footer {
+					/* 设置footer的位置为固定的，不随滚动条移动 */
+					position: fixed;
+					/* 设置footer的底部距离浏览器的底部为0，也就是紧贴在底部 */
+					bottom: 0;
+					/* 设置footer的宽度为100%，也就是占满整个浏览器的宽度 */
+					width: 100%;
+					/* 设置footer的背景颜色为灰色 */
+					background-color: lightgray;
+					/* 设置footer的文字颜色为白色*/
+					color: white;
+					/* 设置footer的文字居中对齐 */
+					text-align: center;
+					}
+			 </style>
+        <h3>Copyright&copy; 2023Mochi All rights reserved</h3>
+    </div>
+</body>
+</html>

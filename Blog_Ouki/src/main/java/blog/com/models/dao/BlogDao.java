@@ -41,6 +41,5 @@ public interface BlogDao extends JpaRepository<Blog, Long> {
 	@Query("UPDATE Blog b SET b.blogView = b.blogView + 1 WHERE b.blogId = :blogId")
 	void incrementBlogView(Long blogId);
 	
-	
 
 }

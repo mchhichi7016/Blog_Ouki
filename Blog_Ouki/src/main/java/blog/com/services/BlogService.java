@@ -122,6 +122,7 @@ public class BlogService {
 	}
 
 	//接收博客的ID，更新博客的浏览量的方法
+	//ブログのIDを受け取り、ブログの閲覧数を更新する方法
 	public Blog incrementBlogView(Long blogId) {
 		if (blogId == null) {
 	        return null;
@@ -135,6 +136,8 @@ public class BlogService {
 	        }
 	        return blog;
 	}
+		
+			
 
   }
 }

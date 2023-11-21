@@ -181,29 +181,29 @@ public class BlogController {
 	
 	
 	//接收博客的ID，更新数据库中博客的浏览量
+	/*
 	@PostMapping("/blog/view/{blogId}")
 	public ResponseEntity<String> viewBlog(@PathVariable Long blogId) {
 	    // 根据博客 ID 更新浏览量，这里假设有一个名为 blogService 的服务来处理业务逻辑
 		blogService.incrementBlogView(blogId);
 	    return ResponseEntity.ok("成功！");
-	}
+	}*/
 	
 	// blog Viewのpageを取得
 	// 获取閲覧blogの页面
-	@RequestMapping(value = "/blog/view/{blogId}", method = RequestMethod.GET)
+	@GetMapping("/blog/view/{blogId}")
 	public String getBlogViewPage(@PathVariable Long blogId, Model model) {
-	    // 此处根据blogId获取相应的博客数据，然后传递给模板
 	    AccountEntity account = (AccountEntity) session.getAttribute("account");
 	    if (account == null) {
 	        return "redirect:/login";
 	    } else {
 	        model.addAttribute("accountName", account.getAccountName());
-	        // 将blogId传递给模板，以便在模板中使用
-	        model.addAttribute("blogId", blogId);
+	        model.addAttribute("blog", blogService.getBlogPost(blogId)); // 通过blogService获取博客信息
 	        blogService.incrementBlogView(blogId);
 	        return "blog_view.html";
 	    }
 	}
+
 
 
 }
