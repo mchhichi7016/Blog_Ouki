@@ -67,8 +67,8 @@
 			</section>
 			<ul class="products">
 				<li th:each="blog:${blogList}">
-					<a th:href="@{/blog/edit/{blogId}(blogId=${blog.blogId})}">
-					<!--<a th:href="@{/blog/view/{blogId}(blogId=${blog.blogId})}">ブログを見る</a>-->
+					<!--<a th:href="@{/blog/edit/{blogId}(blogId=${blog.blogId})}">-->
+					<a th:href="@{/blog/view/{blogId}(blogId=${blog.blogId})}">ブログを見て</a>
 						<img th:src="@{/blog-img/{imagePath}(imagePath=${blog.blogImage})}" alt="">
 						<p th:text="${blog.blogTitle}"></p><br>
 						<p th:text="'ビュー数：' + ${blog.blogView}"></p><br>
@@ -87,6 +87,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
 		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<script src="./js/common.js"></script>
+	<script src="viewBlog.js"></script>
 </body>
 
 </html>

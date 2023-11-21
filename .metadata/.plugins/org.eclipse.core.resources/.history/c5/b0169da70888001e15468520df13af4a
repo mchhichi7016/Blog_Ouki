@@ -1,0 +1,203 @@
+package blog.com.controllers;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import blog.com.models.entity.AccountEntity;
+import blog.com.models.entity.Blog;
+import blog.com.services.BlogService;
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class BlogController {
+
+	@Autowired
+	private BlogService blogService;
+
+	@Autowired
+	private HttpSession session;
+
+	// Blog一览
+	// 展示当前用户的所有blog
+	@GetMapping("/blog/list")
+	public String getBlogList(Model model) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/login";
+		} else {
+			List<Blog> blogList = blogService.selectAll(account.getAccountId());
+			model.addAttribute("blogList", blogList);
+			model.addAttribute("accountName", account.getAccountName());
+			return "blog_list.html";
+		}
+	}
+
+	// blog Registerのpageを取得
+	// 获取创建blog的页面
+	@GetMapping("/blog/register")
+	public String getBlogRegisterPage(Model model) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/login";
+		} else {
+			model.addAttribute("accountName", account.getAccountName());
+			return "blog_register.html";
+		}
+	}
+
+	// blog登记（とうき）の方法
+	// 创建blog！！！
+	@PostMapping("/blog/register/process")
+	public String blogRegister(@RequestParam String blogTitle, @RequestParam String blogType,
+			@RequestParam MultipartFile blogImage, @RequestParam String blogArticle) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/login";
+		} else {
+			// blogImageのファイル名を取得する。
+			// 获取blogImage的文件名
+			String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-").format(new Date())
+					+ blogImage.getOriginalFilename();
+			try {
+				Files.copy(blogImage.getInputStream(), Path.of("src/main/resources/static/blog-img/" + fileName));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (blogService.createBlog(blogTitle, blogType, fileName, blogArticle, account.getAccountId())) {
+				return "redirect:/blog/list";
+			} else {
+				return "redirect:/blog/register";
+			}
+		}
+	}
+
+	//取得blog的编辑页面
+	//必须已有blogId
+	@GetMapping("/blog/edit/{blogId}")
+	//@PathVariable注释 表示blogId从前端页面回传
+	public String getBlogEditPage(@PathVariable Long blogId, Model model) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/login";
+		} else {
+			Blog blogList = blogService.getBlogPost(blogId);
+			if (blogList == null) {
+				return "redirect:/blog/List";
+			} else {
+				model.addAttribute("blogList", blogList);
+			}
+			return "blog_edit.html";
+		}
+	}
+
+	//blog更新する方法 先ずは blogIdが必ず存在
+	@PostMapping("/blog/edit/process")
+	public String blogEdit(@RequestParam Long blogId, @RequestParam String blogTitle, @RequestParam String blogType,
+			@RequestParam MultipartFile blogImage, @RequestParam String blogArticle) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/login";
+		} else {
+			// blogImageのファイル名を取得する。
+			// 获取blogImage的文件名
+			String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-").format(new Date())
+					+ blogImage.getOriginalFilename();
+			try {
+				Files.copy(blogImage.getInputStream(), Path.of("src/main/resources/static/blog-img/" + fileName));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			if (blogService.editBlog(blogId, blogTitle, blogType,fileName, blogArticle, account.getAccountId())) {
+				return "redirect:/blog/list";
+			} else {
+				return "redirect:/blog/edit/" + blogId;
+			}
+		}
+	}
+
+	//blog 削除する
+	@PostMapping("/blog/delete")
+	public String delete(@RequestParam Long blogId) {// 从页面获取参数blogId
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:login";
+		} else {
+			if (blogService.deleteBlog(blogId)) {
+				return "redirect:/blog/list";// 删除成功返回列表blog/list
+			} else {
+				return "redirect:/blog/edit/" + blogId;// 删除失败 返回当前编辑的blog页面
+			}
+		}
+	}
+	
+	
+	//blog searchのpageを取得
+	//获取blog查询的页面
+	@GetMapping("/blog/search")
+	public String getBlogRearchPage(Model model) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/login";
+		} else {
+			model.addAttribute("accountName", account.getAccountName());
+			return "search_list.html";
+		}
+	}
+	
+	
+	
+	//展示查询到的所有blog
+	@GetMapping("/blog/search/{blogTitle}")
+	public String getSearchBlogList(@RequestParam String blogTitle, Model model) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/login";
+			
+		}else {
+			List<Blog> blogList = blogService.searchAll(blogTitle); 
+			model.addAttribute("blogList", blogList);
+			model.addAttribute("accountName", account.getAccountName());
+			
+			return "search_list"; 
+		}
+	}
+	
+	
+	//接收博客的ID，更新数据库中博客的浏览量
+	@PostMapping("/blog/view/{blogId}")
+	public ResponseEntity<String> viewBlog(@PathVariable Long blogId) {
+	    // 根据博客 ID 更新浏览量，这里假设有一个名为 blogService 的服务来处理业务逻辑
+		blogService.incrementBlogView(blogId);
+	    return ResponseEntity.ok("成功！");
+	}
+	
+	// blog Viewのpageを取得
+	// 获取閲覧blogの页面
+	@GetMapping("/blog/View")
+	public String getBlogViewPage(Model model) {
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if (account == null) {
+			return "redirect:/login";
+		} else {
+			model.addAttribute("accountName", account.getAccountName());
+			return "blog_view.html";
+		}
+	}
+
+}

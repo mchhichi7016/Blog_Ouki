@@ -8,12 +8,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -176,5 +178,32 @@ public class BlogController {
 			return "search_list"; 
 		}
 	}
+	
+	
+	//接收博客的ID，更新数据库中博客的浏览量
+	@PostMapping("/blog/view/{blogId}")
+	public ResponseEntity<String> viewBlog(@PathVariable Long blogId) {
+	    // 根据博客 ID 更新浏览量，这里假设有一个名为 blogService 的服务来处理业务逻辑
+		blogService.incrementBlogView(blogId);
+	    return ResponseEntity.ok("成功！");
+	}
+	
+	// blog Viewのpageを取得
+	// 获取閲覧blogの页面
+	@RequestMapping(value = "/blog/view/{blogId}", method = RequestMethod.GET)
+	public String getBlogViewPage(@PathVariable Long blogId, Model model) {
+	    // 此处根据blogId获取相应的博客数据，然后传递给模板
+	    AccountEntity account = (AccountEntity) session.getAttribute("account");
+	    if (account == null) {
+	        return "redirect:/login";
+	    } else {
+	        model.addAttribute("accountName", account.getAccountName());
+	        // 将blogId传递给模板，以便在模板中使用
+	        model.addAttribute("blogId", blogId);
+	        blogService.incrementBlogView(blogId);
+	        return "blog_view.html";
+	    }
+	}
+
 
 }

@@ -3,6 +3,8 @@ package blog.com.models.dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import blog.com.models.entity.Blog;
@@ -31,6 +33,13 @@ public interface BlogDao extends JpaRepository<Blog, Long> {
 	
 	//findByBlogTitleContaining模糊查询
 	List<Blog>findByBlogTitleContaining(String blogTitle);
+	
+	//更新するビュー数の方法
+	@Transactional
+	//修改操作
+	@Modifying
+	@Query("UPDATE Blog b SET b.blogView = b.blogView + 1 WHERE b.blogId = :blogId")
+	void incrementBlogView(Long blogId);
 	
 	
 

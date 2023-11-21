@@ -4,7 +4,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import blog.com.models.dao.BlogDao;
 import blog.com.models.entity.AccountEntity;
@@ -14,7 +17,7 @@ import blog.com.models.entity.Blog;
 public class BlogService {
 	
 	@Autowired
-	private BlogDao blogDao;
+	private BlogDao blogDao;	
 	
 	//blog一览 的方法
 	//根据accountId查找所有blog并返回
@@ -100,7 +103,7 @@ public class BlogService {
 		}
 	}
 	
-	
+	//测试方法
 	//ビュー数
 	//统计blog浏览量
 	public Blog getBlogViewCount(Long blogId) {
@@ -118,7 +121,20 @@ public class BlogService {
 	    }
 	}
 
-	
-	
+	//接收博客的ID，更新博客的浏览量的方法
+	public Blog incrementBlogView(Long blogId) {
+		if (blogId == null) {
+	        return null;
+	    } else {
+	        Blog blog = blogDao.findByBlogId(blogId);
+	        if (blog != null) {
+	            //累加浏览量
+	        	//累積回数
+	            blog.setBlogView(blog.getBlogView() + 1);
+	            blogDao.save(blog);  // 保存更新后的数据
+	        }
+	        return blog;
+	}
 
+  }
 }
