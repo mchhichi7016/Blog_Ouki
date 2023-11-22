@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import blog.com.models.entity.Blog;
+import blog.com.models.entity.Comment;
 import jakarta.transaction.Transactional;
 
 @Repository
@@ -41,5 +42,7 @@ public interface BlogDao extends JpaRepository<Blog, Long> {
 	@Query("UPDATE Blog b SET b.blogView = b.blogView + 1 WHERE b.blogId = :blogId")
 	void incrementBlogView(Long blogId);
 	
+	//保存处理 保存Comment
+	//Comment save(Comment comment);
 
 }

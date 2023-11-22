@@ -1,0 +1,17 @@
+package blog.com.models.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+@Data
+@Entity
+//表名comment 
+//@Table注解，表示它可以被映射到数据库中的一个表
+@Table(name="comment")
+public class Comment {
+	
+	
+	
+
+}

@@ -1,0 +1,16 @@
+package blog.com.models.dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import blog.com.models.entity.AccountEntity;
+import blog.com.models.entity.Comment;
+
+@Repository
+public interface CommentDao extends JpaRepository<AccountEntity, Long>{
+	
+	
+	//保存处理 保存Comment
+	Comment save(Comment comment);
+
+}

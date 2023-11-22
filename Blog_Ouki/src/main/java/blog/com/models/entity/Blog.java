@@ -6,15 +6,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-
-
 
 @Data
 @Entity
-//表名blog //@Table注解，表示它可以被映射到数据库中的一个表
+//表名blog 
 @Table(name="blog")
+//@Table注解，表示它可以被映射到数据库中的一个表
 public class Blog {
 	
 	@Id

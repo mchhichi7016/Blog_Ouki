@@ -10,14 +10,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import blog.com.models.dao.BlogDao;
+import blog.com.models.dao.CommentDao;
 import blog.com.models.entity.AccountEntity;
 import blog.com.models.entity.Blog;
+import blog.com.models.entity.Comment;
 
 @Service
 public class BlogService {
 	
 	@Autowired
 	private BlogDao blogDao;	
+	
+	@Autowired
+	private CommentDao commentDao;
 	
 	//blog一览 的方法
 	//根据accountId查找所有blog并返回
@@ -103,24 +108,8 @@ public class BlogService {
 		}
 	}
 	
-	//测试方法
-	//ビュー数
-	//统计blog浏览量
-	public Blog getBlogViewCount(Long blogId) {
-	    if (blogId == null) {
-	        return null;
-	    } else {
-	        Blog blog = blogDao.findByBlogId(blogId);
-	        if (blog != null) {
-	            //累加浏览量
-	        	//累積回数
-	            blog.setBlogView(blog.getBlogView() + 1);
-	            blogDao.save(blog);  // 保存更新后的数据
-	        }
-	        return blog;
-	    }
-	}
 
+	//ビュー数
 	//接收博客的ID，更新博客的浏览量的方法
 	//ブログのIDを受け取り、ブログの閲覧数を更新する方法
 	public Blog incrementBlogView(Long blogId) {
@@ -135,9 +124,40 @@ public class BlogService {
 	            blogDao.save(blog);  // 保存更新后的数据
 	        }
 	        return blog;
+	    }
 	}
-		
-			
-
-  }
+	
+	
+	//给blog写评论的方法
+	//ブログへのコメントの書く方法
+	public Comment createComment(Long commentId,
+								 String commentContent,
+								 String commentTime,
+								 Long accountId,
+								 Long blogId) {
+		if (blogId == null) {
+			return null;
+		}else {
+			Comment comment = new Comment(commentId, commentContent, commentTime, accountId, blogId);
+			commentDao.save(comment);
+			return comment;
+		}
+	}
+	
+	//判断创建评论是否成功的方法
+	// コメントの作成が成功したかどうかを判断(はんだん)する方法
+	public boolean isCreateComment(Long commentId,
+			 					 String commentContent,
+			 					 String commentTime,
+			 					 Long accountId,
+			 					 Long blogId) {
+		if(blogId == null) {
+			return false;
+		}else {
+			commentDao.save(new Comment(commentId, commentContent, commentTime, accountId, blogId));
+			return true;
+		}
+	}
+	
+	
 }

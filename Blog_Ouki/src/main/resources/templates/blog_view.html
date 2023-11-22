@@ -87,12 +87,23 @@
 						<button class="back-btn" onclick="history.back();" type="button">戻る</button>
 					</div>
 				</form>
-				<form th:action="@{/blog/delete}" method="post">
-					<div class="register-section-details_flex">
-						<input type="hidden" name="blogId" th:value="${blog.blogId}">
-						
-					</div>
+				
+				
+				<!-- 这是一个评论模块的HTML代码 -->
+					<form th:action="@{/blog/comment}" method="post" enctype="multipart/form-data">
+		
+					<textarea name="commentContent" placeholder="入力してください"></textarea>
+			
+					<input type="hidden" name="blogId" value="${blog.blogId}">
+					<!-- input标签是创建一个隐藏的输入框，用来传递博客的ID -->
+					<!-- type属性是输入框的类型，hidden表示隐藏的 -->
+					<!-- name属性是输入框的名字，你可以根据你的后端逻辑修改 -->
+					<!-- value属性是输入框的值，${blog.blogId}表示从model中获取的blog对象的blogId属性 -->
+					<button type="submit">comment</button>
+		
 				</form>
+	
+				
 			</section>
 		</div>
 	</main>
@@ -104,6 +115,9 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
 		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<script src="./js/common.js"></script>
+	
+	<!--通过 Ajax 请求获取新的评论数据，并使用JavaScript 更新页面-->
+	<script src="comment.js"></script>
 </body>
 
 </html>

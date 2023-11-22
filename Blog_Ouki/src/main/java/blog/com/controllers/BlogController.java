@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import blog.com.models.entity.AccountEntity;
 import blog.com.models.entity.Blog;
+import blog.com.models.entity.Comment;
 import blog.com.services.BlogService;
 import jakarta.servlet.http.HttpSession;
 
@@ -184,10 +185,11 @@ public class BlogController {
 	/*
 	@PostMapping("/blog/view/{blogId}")
 	public ResponseEntity<String> viewBlog(@PathVariable Long blogId) {
-	    // 根据博客 ID 更新浏览量，这里假设有一个名为 blogService 的服务来处理业务逻辑
+	    // 根据博客 ID 更新浏览量，使用blogService 的服务来处理业务逻辑
 		blogService.incrementBlogView(blogId);
 	    return ResponseEntity.ok("成功！");
 	}*/
+	
 	
 	// blog Viewのpageを取得
 	// 获取閲覧blogの页面
@@ -198,11 +200,50 @@ public class BlogController {
 	        return "redirect:/login";
 	    } else {
 	        model.addAttribute("accountName", account.getAccountName());
-	        model.addAttribute("blog", blogService.getBlogPost(blogId)); // 通过blogService获取博客信息
+	        // 通过blogService获取博客信息
+	        model.addAttribute("blog", blogService.getBlogPost(blogId)); 
 	        blogService.incrementBlogView(blogId);
 	        return "blog_view.html";
 	    }
 	}
+	
+	
+	//创建评论的方法 //创建コメント
+	//请求方式是Post//リクエストメソッドは Post
+	@PostMapping("/blog/comment/{blogId}")
+	public String commentCreate(@RequestParam Long commentId,
+								//@RequestParam注释：从请求中获取的参数
+								//リクエストから取得するパラメータ
+								@RequestParam String commentContent,
+								@RequestParam String commentTime,
+								@RequestParam Long accountId,
+								@RequestParam Long blogId) {
+		
+		//从session中获取一个名为account的属性，然后把它转换成一个AccountEntity类型的对象
+		//セッションからaccountという名前の属性を取得し、AccountEntity型のオブジェクトに変換（へんかん）する。
+		AccountEntity account = (AccountEntity) session.getAttribute("account");
+		if(account == null) {
+			return "redirect:/login";
+		}else {
+			
+			//コメント作成に成功した場合
+			// 如果创建评论成功
+			if(blogService.isCreateComment(commentId, commentContent, commentTime, accountId, blogId)) {
+				
+				// 重定向到博客详情页面，同时传递博客ID
+			    return "redirect:/blog/view/" + blogId;
+			} else {
+			    // 处理评论创建失败的情况
+			    return "redirect:/blog/view/" + blogId;
+			}
+
+		}
+	}
+	
+	
+	
+	
+	
 
 
 
