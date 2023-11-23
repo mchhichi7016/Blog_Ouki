@@ -19,5 +19,4 @@ public interface CommentDao extends JpaRepository<AccountEntity, Long>{
 	//Spring Data JPA準拠のクエリメソッドの命名規則
 	Comment save(Comment comment);
 	
-	
 }

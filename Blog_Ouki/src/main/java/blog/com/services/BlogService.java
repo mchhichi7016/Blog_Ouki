@@ -146,15 +146,13 @@ public class BlogService {
 	
 	//判断创建评论是否成功的方法
 	// コメントの作成が成功したかどうかを判断(はんだん)する方法
-	public boolean isCreateComment(Long commentId,
-			 					 String commentContent,
-			 					 String commentTime,
+	public boolean isCreateComment(String commentContent,
 			 					 Long accountId,
 			 					 Long blogId) {
 		if(blogId == null) {
 			return false;
 		}else {
-			commentDao.save(new Comment(commentId, commentContent, commentTime, accountId, blogId));
+			commentDao.save(new Comment(commentContent, accountId, blogId));
 			return true;
 		}
 	}

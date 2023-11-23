@@ -6,13 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 
 @Data
 @Entity
-
 //表名comment 
 //@Table注解，表示它可以被映射到数据库中的一个表
 @Table(name="comment")
@@ -38,7 +36,23 @@ public class Comment {
 		
 	}
 
+	public Comment(String commentContent, Long accountId, Long blogId) {
+
+		this.commentContent = commentContent;
+		this.accountId = accountId;
+		this.blogId = blogId;
+	}
+
+	public Comment(String commentContent, String commentTime, Long accountId, Long blogId) {
+
+		this.commentContent = commentContent;
+		this.commentTime = commentTime;
+		this.accountId = accountId;
+		this.blogId = blogId;
+	}
+
 	public Comment(Long commentId, String commentContent, String commentTime, Long accountId, Long blogId) {
+
 		this.commentId = commentId;
 		this.commentContent = commentContent;
 		this.commentTime = commentTime;
@@ -46,6 +60,9 @@ public class Comment {
 		this.blogId = blogId;
 	}
 	
+	
+	
+
 	
 
 }

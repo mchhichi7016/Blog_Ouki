@@ -4,9 +4,9 @@ $.ajax({
     url: '/blog/comment/' + blogId,
     data: {
         // 提交的评论内容和其他参数
-        commentId: commentId,
+        //commentId: commentId,
         commentContent: commentContent,
-        commentTime: commentTime,
+        //commentTime: commentTime,
         accountId: accountId,
         blogId: blogId
     },

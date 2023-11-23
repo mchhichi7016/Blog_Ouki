@@ -211,13 +211,11 @@ public class BlogController {
 	//创建评论的方法 //创建コメント
 	//请求方式是Post//リクエストメソッドは Post
 	@PostMapping("/blog/comment/{blogId}")
-	public String commentCreate(@RequestParam Long commentId,
+	public String commentCreate(@RequestParam Long blogId,
 								//@RequestParam注释：从请求中获取的参数
 								//リクエストから取得するパラメータ
-								@RequestParam String commentContent,
-								@RequestParam String commentTime,
-								@RequestParam Long accountId,
-								@RequestParam Long blogId) {
+								@RequestParam String commentContent
+								) {
 		
 		//从session中获取一个名为account的属性，然后把它转换成一个AccountEntity类型的对象
 		//セッションからaccountという名前の属性を取得し、AccountEntity型のオブジェクトに変換（へんかん）する。
@@ -228,7 +226,7 @@ public class BlogController {
 			
 			//コメント作成に成功した場合
 			// 如果创建评论成功
-			if(blogService.isCreateComment(commentId, commentContent, commentTime, accountId, blogId)) {
+			if(blogService.isCreateComment(commentContent, account.getAccountId(), blogId)){
 				
 				// 重定向到博客详情页面，同时传递博客ID
 			    return "redirect:/blog/view/" + blogId;
