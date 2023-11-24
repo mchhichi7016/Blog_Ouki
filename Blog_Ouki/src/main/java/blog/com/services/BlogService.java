@@ -89,8 +89,22 @@ public class BlogService {
 			return false;//削除失敗しました
 		}else {
 			blogDao.deleteByBlogId(blogId);
+			
+			//无论删除是否成功都返回 true。
 			return true;
 		}
+	}
+	
+	// 削除处理 true 升级版：
+	// 如果 deleteByBlogId 返回的行数大于0，说明删除成功，返回 true，否则返回 false。
+	public boolean deleteBlogUpdate(Long blogId) {
+	    if (blogId == null) {
+	        return false; // 削除失敗しました
+	    } else {
+	        int rowsAffected = blogDao.deleteByBlogId(blogId);
+	        // 如果删除操作影响的行数大于0，则返回true，表示删除成功
+	        return rowsAffected > 0; 
+	    }
 	}
 
 	

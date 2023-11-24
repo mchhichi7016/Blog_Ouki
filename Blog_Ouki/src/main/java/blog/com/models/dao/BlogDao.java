@@ -29,8 +29,11 @@ public interface BlogDao extends JpaRepository<Blog, Long> {
 	//SELECE * FROM product WHERE blogtitle = ?
 	Blog findByBlogTitle(String blogTitle);
 		
-	//删除方法
-	Blog deleteByBlogId(Long blogId);
+	//删除方法 返回：“删除操作影响的行数”
+	int deleteByBlogId(Long blogId);
+	
+	//删除后 不返回任何内容
+	//void deleteByBlogId(Long blogId);
 	
 	//findByBlogTitleContaining模糊查询
 	List<Blog>findByBlogTitleContaining(String blogTitle);

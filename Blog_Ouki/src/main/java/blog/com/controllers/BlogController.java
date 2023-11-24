@@ -97,13 +97,17 @@ public class BlogController {
 		if (account == null) {
 			return "redirect:/login";
 		} else {
+			
+			model.addAttribute("accountName", account.getAccountName());
+			
 			Blog blogList = blogService.getBlogPost(blogId);
 			if (blogList == null) {
 				return "redirect:/blog/List";
 			} else {
 				model.addAttribute("blogList", blogList);
+				return "blog_edit.html";
 			}
-			return "blog_edit.html";
+			//return "blog_edit.html";
 		}
 	}
 
@@ -242,7 +246,12 @@ public class BlogController {
 		}
 	}
 	
-	
+	//my portfolioのpageを取得
+	//获取my portfolio的页面
+	@GetMapping("/portfolio")
+	public String getMyPortfolio() {
+		return "my_portfolio.html";
+	}
 
 
 
