@@ -1,5 +1,7 @@
 package blog.com.models.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ public class Comment {
 	
 	private String commentContent;
 	
-	private String commentTime;
+	private LocalDateTime commentTime;
 	
 	@Column(name = "account_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,17 +43,12 @@ public class Comment {
 		this.commentContent = commentContent;
 		this.accountId = accountId;
 		this.blogId = blogId;
+		// 默认使用当前时间//デフォルトでは現在時刻が使用される
+		//this.commentTime = LocalDateTime.now(); 
 	}
 
-	public Comment(String commentContent, String commentTime, Long accountId, Long blogId) {
 
-		this.commentContent = commentContent;
-		this.commentTime = commentTime;
-		this.accountId = accountId;
-		this.blogId = blogId;
-	}
-
-	public Comment(Long commentId, String commentContent, String commentTime, Long accountId, Long blogId) {
+	public Comment(Long commentId, String commentContent, LocalDateTime commentTime, Long accountId, Long blogId) {
 
 		this.commentId = commentId;
 		this.commentContent = commentContent;

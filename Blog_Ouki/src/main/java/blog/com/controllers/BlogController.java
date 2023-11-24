@@ -203,6 +203,10 @@ public class BlogController {
 	        // 通过blogService获取博客信息
 	        model.addAttribute("blog", blogService.getBlogPost(blogId)); 
 	        blogService.incrementBlogView(blogId);
+	        
+	        // 获取博客评论列表
+	        List<Comment> comments = blogService.getCommentsByBlogId(blogId);
+	        model.addAttribute("comments", comments);
 	        return "blog_view.html";
 	    }
 	}
@@ -213,13 +217,13 @@ public class BlogController {
 	@PostMapping("/blog/comment/{blogId}")
 	public String commentCreate(@RequestParam Long blogId,
 								//@RequestParam注释：从请求中获取的参数
-								//リクエストから取得するパラメータ
 								@RequestParam String commentContent
 								) {
 		
 		//从session中获取一个名为account的属性，然后把它转换成一个AccountEntity类型的对象
 		//セッションからaccountという名前の属性を取得し、AccountEntity型のオブジェクトに変換（へんかん）する。
 		AccountEntity account = (AccountEntity) session.getAttribute("account");
+	
 		if(account == null) {
 			return "redirect:/login";
 		}else {
@@ -237,9 +241,6 @@ public class BlogController {
 
 		}
 	}
-	
-	
-	
 	
 	
 

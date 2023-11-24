@@ -86,22 +86,29 @@
 						
 						<button class="back-btn" onclick="history.back();" type="button">戻る</button>
 					</div>
-				</form>
 				
-				
-				<!-- 这是一个评论模块的HTML代码 -->
-					<form th:action="@{/blog/comment}" method="post" enctype="multipart/form-data">
-		
+				<!--	
+				</form>		
+					<form th:action="@{/blog/comment/{blogId}}" method="post" enctype="multipart/form-data">
 					<textarea name="commentContent" placeholder="入力してください"></textarea>
 			
-					<input type="hidden" name="blogId" value="${blog.blogId}">
-					<!-- input标签是创建一个隐藏的输入框，用来传递博客的ID -->
-					<!-- type属性是输入框的类型，hidden表示隐藏的 -->
-					<!-- name属性是输入框的名字，你可以根据你的后端逻辑修改 -->
-					<!-- value属性是输入框的值，${blog.blogId}表示从model中获取的blog对象的blogId属性 -->
+					<input type="hidden" name="blogId" th:value="${blog.blogId}">
+					
 					<button type="submit">comment</button>
-		
 				</form>
+				-->	
+				<!--
+				<div class="comments">
+    				<h3>Comments</h3>
+    				<ul>
+        				<li th:each="comment:${comments}"> -->
+            			<!-- 显示评论的内容 -->
+            			<!--<p th:text="${comment.commentContent}"></p> -->
+            			<!-- 显示评论者的信息等其他信息 -->
+            			<!--<p th:text="${comment.commentTime}"></p> -->
+        				</li>
+    				</ul>
+				</div> 
 	
 				
 			</section>

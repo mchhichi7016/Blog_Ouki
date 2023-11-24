@@ -1,5 +1,6 @@
 package blog.com.services;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -132,7 +133,7 @@ public class BlogService {
 	//ブログへのコメントの書く方法
 	public Comment createComment(Long commentId,
 								 String commentContent,
-								 String commentTime,
+								 LocalDateTime commentTime,
 								 Long accountId,
 								 Long blogId) {
 		if (blogId == null) {
@@ -152,8 +153,23 @@ public class BlogService {
 		if(blogId == null) {
 			return false;
 		}else {
-			commentDao.save(new Comment(commentContent, accountId, blogId));
+			
+			Comment comment = new Comment(commentContent, accountId, blogId);
+			// 设置 comment_time //comment_time の設定
+	        comment.setCommentTime(LocalDateTime.now()); 
+	        commentDao.save(comment);
+	        
 			return true;
+		}
+	}
+	
+	//通过blogId获取所有评论
+	//blogIdですべてのコメントを取得
+	public List<Comment> getCommentsByBlogId(Long blogId){
+		if(blogId == null) {
+			return null;
+		}else {
+			return commentDao.findByBlogId(blogId);
 		}
 	}
 	
