@@ -87,7 +87,7 @@
 						<button class="back-btn" onclick="history.back();" type="button">戻る</button>
 					</div>
 				
-				<!--	
+			
 				</form>		
 					<form th:action="@{/blog/comment/{blogId}}" method="post" enctype="multipart/form-data">
 					<textarea name="commentContent" placeholder="入力してください"></textarea>
@@ -96,16 +96,15 @@
 					
 					<button type="submit">comment</button>
 				</form>
-				-->	
-				<!--
+			
+				
 				<div class="comments">
     				<h3>Comments</h3>
     				<ul>
-        				<li th:each="comment:${comments}"> -->
+        				<li th:each="comment:${comments}">
             			<!-- 显示评论的内容 -->
-            			<!--<p th:text="${comment.commentContent}"></p> -->
-            			<!-- 显示评论者的信息等其他信息 -->
-            			<!--<p th:text="${comment.commentTime}"></p> -->
+            			<p th:text="${accountName + ' : ' + comment.commentContent}"></p>
+            			<p th:text="${comment.commentTime}"></p>
         				</li>
     				</ul>
 				</div> 

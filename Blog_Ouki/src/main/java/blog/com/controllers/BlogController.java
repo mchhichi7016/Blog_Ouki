@@ -48,6 +48,9 @@ public class BlogController {
 			return "blog_list.html";
 		}
 	}
+	
+	
+	
 
 	// blog Registerのpageを取得
 	// 获取创建blog的页面
