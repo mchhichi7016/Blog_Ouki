@@ -1,5 +1,0 @@
-package blog.com.models.dao;
-
-public interface AccountDao {
-
-}

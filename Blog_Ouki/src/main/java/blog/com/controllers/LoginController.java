@@ -19,9 +19,6 @@ public class LoginController {
 	@Autowired
 	private AccountService accountService;
 	
-	@Autowired
-	private AccountDao accountDao;
-	
 	//Session宣言
 	@Autowired
 	private HttpSession session;
