@@ -1,0 +1,46 @@
+package net.lighthouseplan.spring.junit.controllers;
+
+import org.springframework.test.web.servlet.RequestBuilder;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import net.lighthouseplan.spring.junit.services.AccountService;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class RegisterControllerTest {
+	
+	@Autowired
+	private MockMvc mockMvc;
+	
+	@MockBean
+	private AccountService accountService;
+	
+	//サービスクラスを使ったデータ作成
+	@BeforeEach
+	public void prepareDate() {
+		
+		//登録できる場合　"Alice","alice1234" true
+		when(accountService.createAccount("Alice", "alice1234")).thenReturn(true);
+		//登録できない場合　 Ana   false
+		when(accountService.createAccount(eq("Ana"),any())).thenReturn(false);
+	}
+	
+	//登録画面が正常に
+	@Test
+	public void testGetRigisterPage_Success() throws Exception{
+		RequestBuilder request = MockMvcRequestBuilders
+				.get("/register");
+	}
+
+}

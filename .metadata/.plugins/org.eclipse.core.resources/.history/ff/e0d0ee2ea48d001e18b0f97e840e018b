@@ -1,0 +1,73 @@
+package net.lighthouseplan.spring.junit;
+
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.lighthouseplan.spring.junit.models.Account;
+
+public class DemoMethodsTest {
+	
+	private static DemoMethods demo;
+	
+	//テストの実行前に
+	@BeforeEach
+	public void prepare() {
+		demo = new DemoMethods();
+	}
+	
+	//奇数を入れた場合　true
+	@Test
+	public void testIsOdd_OddNumber_True() {
+		assertTrue(demo.isOdd(7));
+	}
+	
+	//偶数を入れた場合　false
+	@Test
+	public void testIsOdd_EvenNumber_False() {
+		assertFalse(demo.isOdd(8));
+	}
+	
+	//名前の長さが４文字以上ではない場合
+	@Test
+	public void testBuildAccount_InvalidUsername_Null() {
+		//アカウント情報の作成
+		Account account = demo.buildAccount(1L, "Ana", "12345678");
+		assertNull(account);
+	}
+	
+	//passwordの長さが8文字以上ではない場合
+	@Test
+	public void testBuildAccount_InvalidPassword_Null() {
+		//アカウント情報の作成
+		Account account = demo.buildAccount(1L, "Mochi", "1234");
+		assertNull(account);
+	}
+	
+	//名前の長さが4文字以上ではない場合
+	@Test
+	public void test1BuildAccount_InvalidUsername_Null() {
+		//アカウント情報の作成
+		Account account = demo.buildAccount(1L, "Mochimochi", "1234");
+		assertNull(account);
+	}
+	
+	//password 8
+	@Test
+	public void test2BuildAccount_InvalidPassword_Null() {
+		//アカウント情報の作成
+		Account account = demo.buildAccount(1L, "Mochi", "123456789");
+		assertNull(account);
+	}
+	
+	//NotNull で成功する場合
+	@Test
+	public void testBulidAccount_NotNull() {
+		Account account = demo.buildAccount(1L, "", "123456789");
+		assertNull(account);
+	}
+	
+
+}

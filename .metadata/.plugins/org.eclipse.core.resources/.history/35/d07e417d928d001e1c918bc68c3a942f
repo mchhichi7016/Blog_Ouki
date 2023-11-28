@@ -1,0 +1,8 @@
+package net.lighthouseplan.spring.junit;
+
+public class DemoMethodsTest {
+	
+	private static DemoMethods demo;
+	
+
+}

@@ -1,0 +1,5 @@
+package net.lighthouseplan.spring.junit.services;
+
+public class AccountServiceTest {
+
+}

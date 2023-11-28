@@ -1,0 +1,59 @@
+package net.lighthouseplan.spring.junit.services;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import net.lighthouseplan.spring.junit.models.Account;
+import net.lighthouseplan.spring.junit.repositories.AccountRepository;
+
+@SpringBootTest
+public class AccountServiceTest {
+	
+	@MockBean
+	private AccountRepository repository;
+	
+	@Autowired
+	private AccountService accountService;
+	
+	@BeforeEach
+	public void perpareData() {
+		
+		//ユーザーの情報を作成する
+		Account alice = new Account(1L, "Alice", "abcd123");
+				
+		//username  がなんでもいい場合　nullを返す
+		//Login 失敗の場合
+		when(repository.findByUsername(any())).thenReturn(null);		
+		
+		//username　がAlice Entityの内容を返す
+		when(repository.findByUsername("Alice")).thenReturn(alice);				
+	}
+	
+	//ユーザー名をパスワードが　一致 true
+	@Test
+	public void testvalidateAccount_True() {
+		assertTrue(accountService.validateAccount("Alice", "abcd123"));
+	}
+	
+	//ユーザー名をパスワードが 异なる
+	@Test
+	public void testvalidateAccount_False() {
+		assertFalse(accountService.validateAccount("Alice", "abcd123"));
+	}
+			
+
+	
+	
+	
+	
+	
+
+}

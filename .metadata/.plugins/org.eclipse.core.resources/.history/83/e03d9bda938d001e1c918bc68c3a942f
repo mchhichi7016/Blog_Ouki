@@ -1,0 +1,16 @@
+package net.lighthouseplan.spring.junit;
+
+import org.junit.jupiter.api.BeforeEach;
+
+public class DemoMethodsTest {
+	
+	private static DemoMethods demo;
+	
+	@BeforeEach
+	public void prepare() {
+		demo = new DemoMethods();
+	}
+	
+	
+
+}

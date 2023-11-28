@@ -1,0 +1,23 @@
+package net.lighthouseplan.spring.junit;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+public class DemoMethodsTest {
+	
+	private static DemoMethods demo;
+	
+	@BeforeEach
+	public void prepare() {
+		demo = new DemoMethods();
+	}
+	
+	//奇数を入れた場合　true
+	@Test
+	public void testIsOdd_OddNumber_True() {
+		assertTrue(demo.isOdd(7));
+	}
+	
+
+}

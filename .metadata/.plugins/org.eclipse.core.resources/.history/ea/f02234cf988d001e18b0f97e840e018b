@@ -1,0 +1,40 @@
+package net.lighthouseplan.spring.junit;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import net.lighthouseplan.spring.junit.models.Account;
+
+public class DemoMethodsTest {
+	
+	private static DemoMethods demo;
+	
+	//テストの実行前に
+	@BeforeEach
+	public void prepare() {
+		demo = new DemoMethods();
+	}
+	
+	//奇数を入れた場合　true
+	@Test
+	public void testIsOdd_OddNumber_True() {
+		assertTrue(demo.isOdd(7));
+	}
+	
+	//偶数を入れた場合　false
+	@Test
+	public void testIsOdd_EvenNumber_False() {
+		assertFalse(demo.isOdd(8));
+	}
+	
+	//名前の長さが４文字以上ではない場合
+	@Test
+	public void testBuildAccount_InvalidUsername_Null() {
+		//
+		Account account = demo.buildAccount(1L, "Ana", "12345678");
+	}
+	
+
+}

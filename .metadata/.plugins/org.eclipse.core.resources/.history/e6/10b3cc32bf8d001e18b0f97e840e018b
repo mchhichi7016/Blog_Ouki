@@ -1,0 +1,82 @@
+package net.lighthouseplan.spring.junit.controllers;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import net.lighthouseplan.spring.junit.services.AccountService;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class LoginControllerTest {
+	
+	@Autowired
+	private MockMvc mockMvc;
+	
+	@MockBean
+	private AccountService accountService;
+	
+	@BeforeEach
+	public void prepareDate() {
+		
+		//Login 失敗：usename Ana と等しい \ password 123  false
+		when(accountService.validateAccount(eq("Ana"), eq("123"))).thenReturn(false);
+		//Login 成功：usename Alice \ password 12345678  true
+		when(accountService.validateAccount("Alice", "12345678")).thenReturn(true);
+	}
+	
+	//Login Page 取得
+	@Test
+	public void testGetLoginPage_Success() throws Exception{
+		//HTMLリクエストの送信をシミュレートする
+		RequestBuilder request = MockMvcRequestBuilders
+				.get("/login");
+		
+		//正しいviewを返す
+		mockMvc.perform(request)
+		.andExpect(view().name("login.html"));
+	}
+	
+	//Login 成功　hello.html
+	@Test
+	public void testLogin_Success() throws Exception{
+		RequestBuilder request = MockMvcRequestBuilders
+				.post("/login")
+				.param("username", "Alice")
+				.param("password", "12345678");
+		
+		//正しいviewを返す
+		mockMvc.perform(request)
+		.andExpect(model().attribute("name", "Alice"))
+		.andExpect(view().name("hello.html"));			
+	}	
+	
+	//Login 失敗　login.html
+	@Test
+	public void testLogin_Faile() throws Exception{
+		RequestBuilder request = MockMvcRequestBuilders
+				.post("/login")
+				.param("username", "Ana")
+				.param("password", "1234");
+		
+		//対応するビューを返します。
+		mockMvc.perform(request)
+		.andExpect(model().attribute("error", true))
+		.andExpect(view().name("login.html"));	
+	
+	
+	
+
+}
