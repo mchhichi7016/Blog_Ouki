@@ -1,0 +1,86 @@
+package blog.com.controllers;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import blog.com.models.entity.AccountEntity;
+import blog.com.services.AccountService;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class LoginControllerTest {
+	
+	@Autowired
+	private MockMvc mockMvc;
+	
+	@MockBean
+	private AccountService accountService;
+	
+	private MockHttpSession session;
+	
+	//サービスクラスを使ったデータ作成する
+	@BeforeEach
+	public void prepareDate() {
+		
+		AccountEntity accountEntity = new AccountEntity(1L,"mochi@test.com","Mochi","1234abcd");
+		////whenを使用して条件を指定 test@test.comと等しい1234と等しい場合は、戻りの値をAccountEntity
+		//whenを使用して条件を指定　戻り値をaccountEntity
+		when(accountService.loginCheck(eq("test@test.com"), eq("1234"))).thenReturn(accountEntity);
+		//whenを使用して条件を指定  戻り値をnull
+		when(accountService.loginCheck(eq("mochi@test.com"), eq("12345678"))).thenReturn(null);
+		
+		session = new MockHttpSession();
+		session.setAttribute("account", accountEntity);
+	}
+	
+	
+	//Login Page 取得
+	@Test
+	public void testGetLonginPage_Success() throws Exception{
+		//HTMLリクエストの送信を模擬（もぎ）する
+		RequestBuilder request = MockMvcRequestBuilders
+				.get("/login");
+		
+		//正しいviewを返す
+		mockMvc.perform(request)
+		.andExpect(view().name("login.html"));
+
+	}
+	
+	//Login 成功して　/blog/list 移動　
+	@Test
+	public void testLongin_Success() throws Exception{
+		//HTMLリクエストの送信を模擬（もぎ）する
+		RequestBuilder request = MockMvcRequestBuilders
+				.post("/login/process")
+				.param("email", "test@test.com")
+				.param("password", "1234")
+				.session(session);
+		
+		///HTTP request(リクエスト)を模擬（もぎ）し
+		//模拟HTTP请求，返回ResultActions对象
+		mockMvc.perform(request)
+		//リクエストのステータスコードが3xx系（リダイレクト）であることを検証
+		//验证请求的状态代码是否为 3xx 系列（重定向）
+		.andExpect(status().is3xxRedirection())
+		//正しいviewを返す
+		.andExpect(redirectedUrl("/blog/list"));
+			
+	}	
+
+}

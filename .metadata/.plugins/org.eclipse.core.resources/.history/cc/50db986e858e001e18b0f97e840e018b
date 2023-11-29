@@ -1,0 +1,45 @@
+package blog.com.controllers;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.web.servlet.MockMvc;
+
+import blog.com.models.entity.AccountEntity;
+import blog.com.services.AccountService;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class LoginControllerTest {
+	
+	@Autowired
+	private MockMvc mockMvc;
+	
+	@MockBean
+	private AccountService accountService;
+	
+	private MockHttpSession session;
+	
+	//サービスクラスを使ったデータ作成する
+	@BeforeEach
+	public void prepareDate() {
+		
+		AccountEntity accountEntity = new AccountEntity(1L,"mochi@test.com","Mochi","1234abcd");
+		////whenを使用して条件を指定 test@test.comと等しい1234と等しい場合は、戻りの値をAccountEntity
+		//whenを使用して条件を指定　戻り値をaccountEntity
+		when(accountService.loginCheck(eq("test@test.com"), eq("1234"))).thenReturn(accountEntity);
+		//whenを使用して条件を指定  戻り値をnull
+		when(accountService.loginCheck(eq("mochi@test.com"), eq("12345678"))).thenReturn(null);
+		
+		session = new MockHttpSession();
+		session.setAttribute("admin", accountEntity);
+	}
+
+}

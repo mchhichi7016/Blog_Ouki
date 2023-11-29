@@ -1,0 +1,70 @@
+package blog.com.controllers;
+
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import blog.com.services.AccountService;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class RegisterControllerTest {
+	
+	@Autowired
+	private MockMvc mockMvc;
+	
+	@MockBean
+	private AccountService accountService;
+	
+	//サービスクラスを使ったデータ作成する
+	@BeforeEach
+	public void prepareDate() {
+		
+		//登録できる場合　"Mochi","mochi1234" true
+		when(accountService.createAccount("Mochi", "mochi@test.com", "mochi1234")).thenReturn(true);
+		//登録できない場合　"Moc",any() false
+		when(accountService.createAccount(eq("Moc"),any(),any())).thenReturn(false);
+	}
+	
+	//登録画面が正常に
+	@Test
+	public void testGetRegisterPage_Success() throws Exception{
+		RequestBuilder request = MockMvcRequestBuilders
+				.get("/register");
+		
+		//対応するビューを返します。
+		mockMvc.perform(request)
+		.andExpect(view().name("register.html"));
+
+	}
+	
+	//ユーザーの登録が成功する
+	@Test
+	public void testRegister_Success() throws Exception{
+		RequestBuilder request = MockMvcRequestBuilders
+				.post("/register")
+				.param("username", "Mochi")
+				.param("email", "mochi@test.com")
+				.param("password", "mochi1234");
+		
+		//対応するビューを返します。
+		mockMvc.perform(request)
+		.andExpect(view().name("login.html"));	
+	
+	}
+	
+	
+	
+
+}
